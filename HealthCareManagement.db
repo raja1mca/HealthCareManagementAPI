@@ -1,0 +1,36 @@
+-- Admin Table
+CREATE TABLE Admin (
+    AdminId INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Email TEXT NOT NULL UNIQUE,
+    Password TEXT NOT NULL -- Should be stored as a hash
+);
+
+-- Staff Table
+CREATE TABLE Staff (
+    StaffId INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Email TEXT NOT NULL UNIQUE,
+    Role TEXT NOT NULL -- e.g., Nurse, Technician, etc.
+);
+
+-- Attendance Table
+CREATE TABLE Attendance (
+    AttendanceId INTEGER PRIMARY KEY AUTOINCREMENT,
+    StaffId INTEGER NOT NULL,
+    Date TEXT NOT NULL,
+    IsPresent INTEGER NOT NULL, -- SQLite uses INTEGER for boolean (0 = false, 1 = true)
+    CheckInTime TEXT,
+    CheckOutTime TEXT,
+    FOREIGN KEY (StaffId) REFERENCES Staff(StaffId)
+);
+
+-- ShiftAssign Table
+CREATE TABLE ShiftAssign (
+    ShiftAssignId INTEGER PRIMARY KEY AUTOINCREMENT,
+    ShiftTime TEXT NOT NULL, -- e.g., Morning, Evening
+    StaffId INTEGER NOT NULL,
+    ShiftId INTEGER NOT NULL,
+    Date TEXT NOT NULL,
+    FOREIGN KEY (StaffId) REFERENCES Staff(StaffId)
+);
